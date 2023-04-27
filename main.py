@@ -128,8 +128,13 @@ def get_predication_for_aquid(aqsid):
         date_time_index = pd.date_range(start='00:00:00', end='23:00:00', freq='1H')
         final = pd.DataFrame(index=date_time_index, columns=column_names, data = req)
 
+        final = final.reset_index()
+        df.rename(columns={'index':'datetime'}, inplace=True)
+
         json_records = final.to_json(orient ='records')
         # json_string = json.dumps(df.to_dict(), ensure_ascii=False, orient = 'records')
+        
+        # parse the JSON data
 
         return json.loads(json_records)
     except Exception as e:
