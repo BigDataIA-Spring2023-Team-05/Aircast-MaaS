@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse
 
 
 from s3_model import S3ModelObj
+import json
 
 
 app =  FastAPI()
@@ -127,9 +128,10 @@ def get_predication_for_aquid(aqsid):
         date_time_index = pd.date_range(start='00:00:00', end='23:00:00', freq='1H')
         final = pd.DataFrame(index=date_time_index, columns=column_names, data = req)
 
-        json_records = final.to_json(orient ='records')
+        # json_records = final.to_json(orient ='records')
+        json_string = json.dumps(df.to_dict(), ensure_ascii=False, orient = 'records')
 
-        return json_records
+        return json_string
     except Exception as e:
         print("exception thrown")
         print(e.with_traceback)        
